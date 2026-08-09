@@ -48,7 +48,8 @@ const R_FLAT_RING  = 4.5;
 const R_DBLFLAT_RING1 = 4;
 const R_DBLFLAT_RING2 = 6.5;
 const TICK_LEN     = 4;
-const R_HALO       = 7.5;  // hollow inversion halo (section 6)
+const SPOKE_LEN    = 6;    // inversion spoke length (section 6)
+const SPOKE_W      = 1.2;  // inversion spoke stroke width
 const R_CONSTEL    = 18;            // constellation dot ring radius (section 9)
 const R_ROOT_DOT   = 4.5;           // root emphasis dot in a constellation
 const R_DOT        = 3;             // non-root constellation dot
@@ -120,9 +121,22 @@ function glyphExtent(spec) {
     maxR = Math.max(maxR, r);
   }
   if (spec.inv != null) {
-    // halo sits at position(inv, R) with radius R_HALO.
-    const invR = (spec.susp && spec.susp.h === spec.inv) ? R_RIM : R_ORBIT;
-    maxR = Math.max(maxR, invR + R_HALO);
+    // spoke extends past the base circle by SPOKE_LEN, and further past any
+    // marker occupying hour inv (mirrors inversionSpoke()). The ~1.5 cap plus
+    // stroke half-width is folded in conservatively via the constant.
+    const r0 = effectiveBaseRadius(spec);
+    let rEnd = r0 + SPOKE_LEN;
+    if (spec.susp && spec.susp.h === spec.inv) {
+      const alt = spec.susp.alt;
+      rEnd = Math.max(rEnd, ((!alt || alt === N) ? R_RIM + R_NATURAL
+                                                : markerOuterRadius(alt)) + 1.5);
+    }
+    if (spec.ext) {
+      for (const e of spec.ext) {
+        if (e.h === spec.inv) rEnd = Math.max(rEnd, markerOuterRadius(e.alt) + 1.5);
+      }
+    }
+    maxR = Math.max(maxR, rEnd + SPOKE_W / 2);
   }
   return maxR;
 }
@@ -270,17 +284,39 @@ function orbitMarker(h, alt) {
   return markerPartsAt(h, alt, R_ORBIT).join("\n  ");
 }
 
-// ---- inversion halo (section 6) ----
-// A hollow ring, r=R_HALO, centered at position(inv, R) -- where R is whatever
-// radius that tone would normally use (R_rim for a susp rim tone, R_orbit for
-// an extension or for the 3rd/5th, which have no own marker in root position).
-// Drawn at the bottom of the layer stack so everything else layers on top of
-// it; the flat/sharp markers that occupy the same hour paint over it.
-function inversionHalo(spec) {
+// ---- inversion spoke (section 6) ----
+// A short black radial line ("spoke") poking out of the main quality circle at
+// the clock hour of the bass tone (spec.inv). It starts at the edge of the base
+// circle (R_BASE / R_BASE_NO5 depending on the chord) and extends outward by
+// SPOKE_LEN along the angle(inv) direction. Drawn at the bottom of the layer
+// stack so any flat/sharp marker that occupies the same hour layers on top;
+// the spoke sits beside (radially beyond) those markers rather than encircling
+// them, so it never conflicts visually with an orbit marker at hour inv.
+function inversionSpoke(spec) {
   const inv = spec.inv;
-  const invR = (spec.susp && spec.susp.h === inv) ? R_RIM : R_ORBIT;
-  const p = pos(inv, invR);
-  return `<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_HALO}" fill="none" stroke="${FG}" stroke-width="1.5" opacity="0.6"/>`;
+  const r0  = effectiveBaseRadius(spec);
+  // End the spoke just past whatever normally lives at hour inv, so it reads as
+  // a distinct pointer rather than vanishing under a marker that happens to
+  // occupy the same clock hour. Base case: r0 + SPOKE_LEN. If a rim sus marker
+  // or an extension/alteration marker sits at hour inv, poke ~1.5 past its
+  // outer radius instead.
+  let rEnd = r0 + SPOKE_LEN;
+  if (spec.susp && spec.susp.h === inv) {
+    const alt = spec.susp.alt;
+    rEnd = Math.max(rEnd, ((!alt || alt === N) ? R_RIM + R_NATURAL
+                                              : markerOuterRadius(alt)) + 1.5);
+  }
+  if (spec.ext) {
+    for (const e of spec.ext) {
+      if (e.h === inv) rEnd = Math.max(rEnd, markerOuterRadius(e.alt) + 1.5);
+    }
+  }
+  const u = unit(inv);
+  const x1 = u.x * r0;
+  const y1 = u.y * r0;
+  const x2 = u.x * rEnd;
+  const y2 = u.y * rEnd;
+  return `<line x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}" stroke="${FG}" stroke-width="${SPOKE_W}" stroke-linecap="round"/>`;
 }
 
 // ============================================================
@@ -399,8 +435,8 @@ function buildChordSVG(spec, opts) {
   const withRootLetter = !!opts.withRootLetter;
   const layers = [];
 
-  // 1. inversion halo (drawn at the bottom so it sits behind everything)
-  if (spec.inv != null) layers.push(inversionHalo(spec));
+  // 1. inversion spoke (drawn at the bottom so it sits behind everything)
+  if (spec.inv != null) layers.push(inversionSpoke(spec));
 
   // 2. orbit guide ring (shown when there are orbit markers; behind the base
   //    so the base can sit cleanly on top of it)
@@ -566,7 +602,7 @@ const chords = [
   { name: "Cm (no5) \u2014 minor no5",              file: "Cm-no5.svg",      quality: "minor", no5: true },
   { name: "C (no3, no5)",                            file: "C-no3-no5.svg",   quality: "major", no3: true, no5: true },
 
-  // ---- inversions (examples) — now using the HALO marker (section 6) ----
+  // ---- inversions (examples) — now using the SPOKE marker (section 6) ----
   { name: "C / E (1st inv)",           file: "C-1st-inv.svg",      quality: "major", inv: 3 },
   { name: "C / G (2nd inv)",           file: "C-2nd-inv.svg",      quality: "major", inv: 5 },
   { name: "Cmaj7 1st inv",            file: "Cmaj7-1st-inv.svg",  quality: "major", ext: [{ h: 7, alt: N }], inv: 3 },
@@ -727,8 +763,8 @@ const groups = [
   { title: "No-fifth and no-third chords",
     note:  "When the third or fifth role is absent, the base circle shrinks (no5) or goes hollow (no3). The &ldquo;no3&rdquo; shape is intentionally identical to a sus chord \u2014 a chord with a fifth and no third genuinely doesn&rsquo;t tell you major or minor.",
     members: chords.slice(no3no5Start, invStart) },
-  { title: "Inversions \u2014 the halo marker",
-    note:  "A hollow ring behind whatever already sits at the bass tone&rsquo;s clock position. No halo anywhere means root position. (Replaces the earlier wedge pointer, which read as a compass needle, not an indicator.)",
+  { title: "Inversions \u2014 the spoke marker",
+    note:  "A short black radial line poking out of the main circle at the bass tone&rsquo;s clock hour. No spoke anywhere means root position.",
     members: chords.slice(invStart, microStart) },
   { title: "Microtonal chords",
     note:  "Round each note to the nearest 12-TET semitone, classify the base shape from the rounded 3rd/5th, then mark residual deviations with the existing natural/flat/sharp/double-flat vocabulary at h=3 and h=5. The base shape stays clean \u2014 all microtonal nuance lives in satellite markers. 50-cent ties always round up and use the double-flat marker.",
@@ -792,8 +828,13 @@ const html = `<!DOCTYPE html>
     line-height: 1.45;
     padding: 2.5rem 1.5rem 5rem;
   }
-  header { max-width: 1100px; margin: 0 auto 2.5rem; }
+  header { max-width: 1100px; margin: 0 auto 2.5rem; position: relative; }
   header h1 { font-size: 1.9rem; margin: 0 0 0.4rem; letter-spacing: -0.01em; }
+  .repo-link { position: absolute; top: 0; right: 0; font-size: 0.85rem;
+              color: var(--muted); text-decoration: none; border: 1px solid var(--line);
+              background: #fff; padding: 0.4rem 0.85rem; border-radius: 999px;
+              transition: border-color 0.12s ease, color 0.12s ease; }
+  .repo-link:hover { border-color: #c8c7c0; color: var(--fg); }
   header p { margin: 0 0 1rem; color: var(--muted); max-width: 60ch; }
   .legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; align-items: center;
             font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--line);
@@ -810,8 +851,7 @@ const html = `<!DOCTYPE html>
           gap: 0.5rem; }
   .card { background: #fff; border: 1px solid var(--line); border-radius: 10px;
           padding: 0.85rem 0.5rem 0.7rem; display: flex; flex-direction: column;
-          align-items: center; gap: 0.55rem; transition: transform 0.08s ease, box-shadow 0.08s ease; }
-  .card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+          align-items: center; gap: 0.55rem; }
   .glyph { width: 110px; height: 110px; display: flex; align-items: center; justify-content: center; }
   .glyph svg { width: 100%; height: 100%; display: block; }
   .name { font-size: 0.8rem; text-align: center; color: var(--fg); font-weight: 500;
@@ -852,6 +892,7 @@ const html = `<!DOCTYPE html>
 </head>
 <body>
 <header>
+  <a class="repo-link" href="https://github.com/lukephills/chord-glyphs" target="_blank" rel="noopener">View on GitHub &nearr;</a>
   <h1>CLUSTER chord glyphs</h1>
   <p>An abstract visual language for chord quality. Each glyph encodes a chord&rsquo;s
      shape and feel without letters or music-theory math. The main circle&rsquo;s fill
@@ -868,7 +909,7 @@ const html = `<!DOCTYPE html>
     <span><b>ringed dot</b> = flat</span>
     <span><b>dot&nbsp;+&nbsp;tick</b> = sharp</span>
     <span><b>double ring</b> = double flat</span>
-    <span><b>hollow ring behind a marker</b> = inversion (tone in bass)</span>
+    <span><b>radial spoke poking out of the main circle</b> = inversion (tone in bass)</span>
     <span><b>smaller circle</b> = no fifth (no5)</span>
     <span><b>hollow circle</b> = no third (no3) or suspended</span>
   </div>
