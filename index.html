@@ -23,8 +23,13 @@
     line-height: 1.45;
     padding: 2.5rem 1.5rem 5rem;
   }
-  header { max-width: 1100px; margin: 0 auto 2.5rem; }
+  header { max-width: 1100px; margin: 0 auto 2.5rem; position: relative; }
   header h1 { font-size: 1.9rem; margin: 0 0 0.4rem; letter-spacing: -0.01em; }
+  .repo-link { position: absolute; top: 0; right: 0; font-size: 0.85rem;
+              color: var(--muted); text-decoration: none; border: 1px solid var(--line);
+              background: #fff; padding: 0.4rem 0.85rem; border-radius: 999px;
+              transition: border-color 0.12s ease, color 0.12s ease; }
+  .repo-link:hover { border-color: #c8c7c0; color: var(--fg); }
   header p { margin: 0 0 1rem; color: var(--muted); max-width: 60ch; }
   .legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; align-items: center;
             font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--line);
@@ -41,8 +46,7 @@
           gap: 0.5rem; }
   .card { background: #fff; border: 1px solid var(--line); border-radius: 10px;
           padding: 0.85rem 0.5rem 0.7rem; display: flex; flex-direction: column;
-          align-items: center; gap: 0.55rem; transition: transform 0.08s ease, box-shadow 0.08s ease; }
-  .card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+          align-items: center; gap: 0.55rem; }
   .glyph { width: 110px; height: 110px; display: flex; align-items: center; justify-content: center; }
   .glyph svg { width: 100%; height: 100%; display: block; }
   .name { font-size: 0.8rem; text-align: center; color: var(--fg); font-weight: 500;
@@ -83,6 +87,7 @@
 </head>
 <body>
 <header>
+  <a class="repo-link" href="https://github.com/lukephills/chord-glyphs" target="_blank" rel="noopener">View on GitHub &nearr;</a>
   <h1>CLUSTER chord glyphs</h1>
   <p>An abstract visual language for chord quality. Each glyph encodes a chord&rsquo;s
      shape and feel without letters or music-theory math. The main circle&rsquo;s fill
@@ -99,7 +104,7 @@
     <span><b>ringed dot</b> = flat</span>
     <span><b>dot&nbsp;+&nbsp;tick</b> = sharp</span>
     <span><b>double ring</b> = double flat</span>
-    <span><b>hollow ring behind a marker</b> = inversion (tone in bass)</span>
+    <span><b>radial spoke poking out of the main circle</b> = inversion (tone in bass)</span>
     <span><b>smaller circle</b> = no fifth (no5)</span>
     <span><b>hollow circle</b> = no third (no3) or suspended</span>
   </div>
@@ -110,7 +115,7 @@
       <h2>Triads — the moon cycle</h2>
       <ul class="grid">
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C (major)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C (major)">
   <title>C (major)</title>
   <circle r="14" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
@@ -126,7 +131,7 @@
         <div class="name">C (major)</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm (minor)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm (minor)">
   <title>Cm (minor)</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <path d="M0,-14 A14,14 0 0,0 0,14 Z" fill="#1a1a1a"/>
@@ -143,7 +148,7 @@
         <div class="name">Cm (minor)</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cdim (diminished)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cdim (diminished)">
   <title>Cdim (diminished)</title>
   <path d="M14,0 A14,14 0 1,0 -14,0 A14,14 0 1,0 14,0 M19,0 A13,13 0 1,0 -7,0 A13,13 0 1,0 19,0" fill-rule="evenodd" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
@@ -159,7 +164,7 @@
         <div class="name">Cdim (diminished)</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Caug (augmented)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Caug (augmented)">
   <title>Caug (augmented)</title>
   <path d="M14,0 A14,14 0 1,0 -14,0 A14,14 0 1,0 14,0 M17,0 A6,6 0 1,0 5,0 A6,6 0 1,0 17,0" fill-rule="evenodd" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
@@ -175,7 +180,7 @@
         <div class="name">Caug (augmented)</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Csus2">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Csus2">
   <title>Csus2</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <circle cx="12.124" cy="-7" r="3" fill="#1a1a1a"/>
@@ -192,7 +197,7 @@
         <div class="name">Csus2</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Csus4">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Csus4">
   <title>Csus4</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <circle cx="12.124" cy="7" r="3" fill="#1a1a1a"/>
@@ -209,7 +214,7 @@
         <div class="name">Csus4</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Csus♯4">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Csus♯4">
   <title>Csus♯4</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <circle cx="12.124" cy="7" r="3" fill="#1a1a1a"/>
@@ -227,7 +232,7 @@
         <div class="name">Csus♯4</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Csusb2">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Csusb2">
   <title>Csusb2</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <circle cx="12.124" cy="-7" r="1.5" fill="#1a1a1a"/>
@@ -251,7 +256,7 @@
       <h2>Add-tone chords</h2>
       <ul class="grid">
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cadd2">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cadd2">
   <title>Cadd2</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -269,7 +274,7 @@
         <div class="name">Cadd2</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cadd4">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cadd4">
   <title>Cadd4</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -287,7 +292,7 @@
         <div class="name">Cadd4</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cadd#4">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cadd#4">
   <title>Cadd#4</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -306,7 +311,7 @@
         <div class="name">Cadd#4</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cadd6">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cadd6">
   <title>Cadd6</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -324,7 +329,7 @@
         <div class="name">Cadd6</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cadd9">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cadd9">
   <title>Cadd9</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -342,7 +347,7 @@
         <div class="name">Cadd9</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cmadd9">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cmadd9">
   <title>Cmadd9</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
@@ -367,7 +372,7 @@
       <h2>Sixth chords</h2>
       <ul class="grid">
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C6">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C6">
   <title>C6</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -385,7 +390,7 @@
         <div class="name">C6</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm6">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm6">
   <title>Cm6</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
@@ -404,7 +409,7 @@
         <div class="name">Cm6</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C6/9">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C6/9">
   <title>C6/9</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -429,7 +434,7 @@
       <h2>Seventh chords</h2>
       <ul class="grid">
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cmaj7">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cmaj7">
   <title>Cmaj7</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -447,7 +452,7 @@
         <div class="name">Cmaj7</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C7 (dominant)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C7 (dominant)">
   <title>C7 (dominant)</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -466,7 +471,7 @@
         <div class="name">C7 (dominant)</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm7">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm7">
   <title>Cm7</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
@@ -486,7 +491,7 @@
         <div class="name">Cm7</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm(maj7)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm(maj7)">
   <title>Cm(maj7)</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
@@ -505,7 +510,7 @@
         <div class="name">Cm(maj7)</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cdim7">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cdim7">
   <title>Cdim7</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <path d="M14,0 A14,14 0 1,0 -14,0 A14,14 0 1,0 14,0 M19,0 A13,13 0 1,0 -7,0 A13,13 0 1,0 19,0" fill-rule="evenodd" fill="#1a1a1a"/>
@@ -525,7 +530,7 @@
         <div class="name">Cdim7</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm7♭5 (half-dim)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm7♭5 (half-dim)">
   <title>Cm7♭5 (half-dim)</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
@@ -547,7 +552,7 @@
         <div class="name">Cm7♭5 (half-dim)</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C7♭5">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C7♭5">
   <title>C7♭5</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -568,7 +573,7 @@
         <div class="name">C7♭5</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Caugmaj7">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Caugmaj7">
   <title>Caugmaj7</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <path d="M14,0 A14,14 0 1,0 -14,0 A14,14 0 1,0 14,0 M17,0 A6,6 0 1,0 5,0 A6,6 0 1,0 17,0" fill-rule="evenodd" fill="#1a1a1a"/>
@@ -586,7 +591,7 @@
         <div class="name">Caugmaj7</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Caug7 (C+7)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Caug7 (C+7)">
   <title>Caug7 (C+7)</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <path d="M14,0 A14,14 0 1,0 -14,0 A14,14 0 1,0 14,0 M17,0 A6,6 0 1,0 5,0 A6,6 0 1,0 17,0" fill-rule="evenodd" fill="#1a1a1a"/>
@@ -611,7 +616,7 @@
       <h2>Ninth chords</h2>
       <ul class="grid">
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C9">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C9">
   <title>C9</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -631,7 +636,7 @@
         <div class="name">C9</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cmaj9">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cmaj9">
   <title>Cmaj9</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -650,7 +655,7 @@
         <div class="name">Cmaj9</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm9">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm9">
   <title>Cm9</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
@@ -671,7 +676,7 @@
         <div class="name">Cm9</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C7♭9">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C7♭9">
   <title>C7♭9</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -692,7 +697,7 @@
         <div class="name">C7♭9</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C7♯9">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C7♯9">
   <title>C7♯9</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -713,7 +718,7 @@
         <div class="name">C7♯9</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cdim7♭9">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cdim7♭9">
   <title>Cdim7♭9</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <path d="M14,0 A14,14 0 1,0 -14,0 A14,14 0 1,0 14,0 M19,0 A13,13 0 1,0 -7,0 A13,13 0 1,0 19,0" fill-rule="evenodd" fill="#1a1a1a"/>
@@ -741,7 +746,7 @@
       <h2>Eleventh chords</h2>
       <ul class="grid">
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C11">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C11">
   <title>C11</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -762,7 +767,7 @@
         <div class="name">C11</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cmaj11">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cmaj11">
   <title>Cmaj11</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -782,7 +787,7 @@
         <div class="name">Cmaj11</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm11">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm11">
   <title>Cm11</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
@@ -804,7 +809,7 @@
         <div class="name">Cm11</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C7♯11">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C7♯11">
   <title>C7♯11</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -832,7 +837,7 @@
       <h2>Thirteenth chords</h2>
       <ul class="grid">
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C13">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C13">
   <title>C13</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -854,7 +859,7 @@
         <div class="name">C13</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cmaj13">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cmaj13">
   <title>Cmaj13</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -875,7 +880,7 @@
         <div class="name">Cmaj13</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm13">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm13">
   <title>Cm13</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
@@ -904,7 +909,7 @@
       <h2>Suspended with extensions</h2>
       <ul class="grid">
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Csus2 (add9 feel)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Csus2 (add9 feel)">
   <title>Csus2 (add9 feel)</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
@@ -923,7 +928,7 @@
         <div class="name">Csus2 (add9 feel)</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C7sus4">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C7sus4">
   <title>C7sus4</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
@@ -943,7 +948,7 @@
         <div class="name">C7sus4</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C9sus4">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C9sus4">
   <title>C9sus4</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
@@ -964,7 +969,7 @@
         <div class="name">C9sus4</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C11sus4">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C11sus4">
   <title>C11sus4</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
@@ -992,7 +997,7 @@
       <h2>No-fifth and no-third chords</h2><p class="group-note">When the third or fifth role is absent, the base circle shrinks (no5) or goes hollow (no3). The &ldquo;no3&rdquo; shape is intentionally identical to a sus chord — a chord with a fifth and no third genuinely doesn&rsquo;t tell you major or minor.</p>
       <ul class="grid">
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C (no3) — fifth only (power chord)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C (no3) — fifth only (power chord)">
   <title>C (no3) — fifth only (power chord)</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <g class="root-letter" aria-hidden="true">
@@ -1008,7 +1013,7 @@
         <div class="name">C (no3) — fifth only (power chord)</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C (no5) — third only">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C (no5) — third only">
   <title>C (no5) — third only</title>
   <circle r="9" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
@@ -1024,7 +1029,7 @@
         <div class="name">C (no5) — third only</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm (no5) — minor no5">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cm (no5) — minor no5">
   <title>Cm (no5) — minor no5</title>
   <circle r="9" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <path d="M0,-9 A9,9 0 0,0 0,9 Z" fill="#1a1a1a"/>
@@ -1041,7 +1046,7 @@
         <div class="name">Cm (no5) — minor no5</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C (no3, no5)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C (no3, no5)">
   <title>C (no3, no5)</title>
   <circle r="9" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <g class="root-letter" aria-hidden="true">
@@ -1060,12 +1065,12 @@
     </section>
 
     <section class="group">
-      <h2>Inversions — the halo marker</h2><p class="group-note">A hollow ring behind whatever already sits at the bass tone&rsquo;s clock position. No halo anywhere means root position. (Replaces the earlier wedge pointer, which read as a compass needle, not an indicator.)</p>
+      <h2>Inversions — the spoke marker</h2><p class="group-note">A short black radial line poking out of the main circle at the bass tone&rsquo;s clock hour. No spoke anywhere means root position.</p>
       <ul class="grid">
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C / E (1st inv)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C / E (1st inv)">
   <title>C / E (1st inv)</title>
-  <circle cx="20" cy="0" r="7.5" fill="none" stroke="#1a1a1a" stroke-width="1.5" opacity="0.6"/>
+  <line x1="14" y1="0" x2="20" y2="0" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
   <circle r="14" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
     <defs>
@@ -1080,9 +1085,9 @@
         <div class="name">C / E (1st inv)</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C / G (2nd inv)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C / G (2nd inv)">
   <title>C / G (2nd inv)</title>
-  <circle cx="10" cy="17.321" r="7.5" fill="none" stroke="#1a1a1a" stroke-width="1.5" opacity="0.6"/>
+  <line x1="7" y1="12.124" x2="10" y2="17.321" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
   <circle r="14" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
     <defs>
@@ -1097,9 +1102,9 @@
         <div class="name">C / G (2nd inv)</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cmaj7 1st inv">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cmaj7 1st inv">
   <title>Cmaj7 1st inv</title>
-  <circle cx="20" cy="0" r="7.5" fill="none" stroke="#1a1a1a" stroke-width="1.5" opacity="0.6"/>
+  <line x1="14" y1="0" x2="20" y2="0" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
   <circle cx="-10" cy="17.321" r="3" fill="#1a1a1a"/>
@@ -1116,9 +1121,9 @@
         <div class="name">Cmaj7 1st inv</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C7 3rd inv (7 in bass)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C7 3rd inv (7 in bass)">
   <title>C7 3rd inv (7 in bass)</title>
-  <circle cx="-10" cy="17.321" r="7.5" fill="none" stroke="#1a1a1a" stroke-width="1.5" opacity="0.6"/>
+  <line x1="-7" y1="12.124" x2="-13" y2="22.517" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
   <circle cx="-10" cy="17.321" r="1.5" fill="#1a1a1a"/>
@@ -1136,9 +1141,9 @@
         <div class="name">C7 3rd inv (7 in bass)</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C7♭9 7th-in-bass">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C7♭9 7th-in-bass">
   <title>C7♭9 7th-in-bass</title>
-  <circle cx="-10" cy="17.321" r="7.5" fill="none" stroke="#1a1a1a" stroke-width="1.5" opacity="0.6"/>
+  <line x1="-7" y1="12.124" x2="-13" y2="22.517" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
   <circle cx="-10" cy="17.321" r="1.5" fill="#1a1a1a"/>
@@ -1158,9 +1163,9 @@
         <div class="name">C7♭9 7th-in-bass</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C9 9th in bass">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C9 9th in bass">
   <title>C9 9th in bass</title>
-  <circle cx="-20" cy="0" r="7.5" fill="none" stroke="#1a1a1a" stroke-width="1.5" opacity="0.6"/>
+  <line x1="-14" y1="0" x2="-24.5" y2="0" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
   <circle cx="-10" cy="17.321" r="1.5" fill="#1a1a1a"/>
@@ -1185,7 +1190,7 @@
       <h2>Microtonal chords</h2><p class="group-note">Round each note to the nearest 12-TET semitone, classify the base shape from the rounded 3rd/5th, then mark residual deviations with the existing natural/flat/sharp/double-flat vocabulary at h=3 and h=5. The base shape stays clean — all microtonal nuance lives in satellite markers. 50-cent ties always round up and use the double-flat marker.</p>
       <ul class="grid">
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hexany 1,2,5 (augmented, microtonal)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hexany 1,2,5 (augmented, microtonal)">
   <title>Hexany 1,2,5 (augmented, microtonal)</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <path d="M14,0 A14,14 0 1,0 -14,0 A14,14 0 1,0 14,0 M17,0 A6,6 0 1,0 5,0 A6,6 0 1,0 17,0" fill-rule="evenodd" fill="#1a1a1a"/>
@@ -1206,7 +1211,7 @@
         <div class="name">Hexany 1,2,5 (augmented, microtonal)</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Harmonic series 4:5:6 (just major, microtonal)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Harmonic series 4:5:6 (just major, microtonal)">
   <title>Harmonic series 4:5:6 (just major, microtonal)</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <circle r="14" fill="#1a1a1a"/>
@@ -1225,7 +1230,7 @@
         <div class="name">Harmonic series 4:5:6 (just major, microtonal)</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hexany 1,3,5 (sus, microtonal)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hexany 1,3,5 (sus, microtonal)">
   <title>Hexany 1,3,5 (sus, microtonal)</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <circle cx="12.124" cy="7" r="3" fill="#1a1a1a"/>
@@ -1242,7 +1247,7 @@
         <div class="name">Hexany 1,3,5 (sus, microtonal)</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="24-EDO mid-tie (double-flat 5th)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="24-EDO mid-tie (double-flat 5th)">
   <title>24-EDO mid-tie (double-flat 5th)</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <path d="M14,0 A14,14 0 1,0 -14,0 A14,14 0 1,0 14,0 M17,0 A6,6 0 1,0 5,0 A6,6 0 1,0 17,0" fill-rule="evenodd" fill="#1a1a1a"/>
@@ -1268,7 +1273,7 @@
       <h2>Scale constellations</h2><p class="group-note">A separate glyph family from chord glyphs — it answers &ldquo;where does this note sit&rdquo; (proportional position, cents / period × 360°), not &ldquo;what would a musician call it&rdquo; (the named-degree clock used by chord glyphs). Each dot is a note, all joined by a thin outline so each scale gets a distinct, recognizable silhouette (whole-tone = hexagon).</p>
       <ul class="grid">
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Major scale">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Major scale">
   <title>Major scale</title>
   <circle r="18" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <polygon points="0,-18 15.588,-9 15.588,9 9,15.588 -9,15.588 -18,0 -9,-15.588" fill="none" stroke="#1a1a1a" stroke-width="1" opacity="0.6"/>
@@ -1284,7 +1289,7 @@
         <div class="name">Major scale</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Natural minor scale">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Natural minor scale">
   <title>Natural minor scale</title>
   <circle r="18" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <polygon points="0,-18 15.588,-9 18,0 9,15.588 -9,15.588 -15.588,9 -15.588,-9" fill="none" stroke="#1a1a1a" stroke-width="1" opacity="0.6"/>
@@ -1300,7 +1305,7 @@
         <div class="name">Natural minor scale</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Whole-tone scale (hexagon)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Whole-tone scale (hexagon)">
   <title>Whole-tone scale (hexagon)</title>
   <circle r="18" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <polygon points="0,-18 15.588,-9 15.588,9 0,18 -15.588,9 -15.588,-9" fill="none" stroke="#1a1a1a" stroke-width="1" opacity="0.6"/>
@@ -1315,7 +1320,7 @@
         <div class="name">Whole-tone scale (hexagon)</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Harmonic minor scale">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Harmonic minor scale">
   <title>Harmonic minor scale</title>
   <circle r="18" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <polygon points="0,-18 15.588,-9 18,0 9,15.588 -15.588,9 -18,0 -9,-15.588" fill="none" stroke="#1a1a1a" stroke-width="1" opacity="0.6"/>
@@ -1331,7 +1336,7 @@
         <div class="name">Harmonic minor scale</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hexany scale">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hexany scale">
   <title>Hexany scale</title>
   <circle r="18" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <polygon points="0,-18 16.193,7.861 9.159,15.496 -9.159,15.496 -16.193,7.861" fill="none" stroke="#1a1a1a" stroke-width="1" opacity="0.6"/>
@@ -1345,7 +1350,7 @@
         <div class="name">Hexany scale</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Harmonics scale (4:5:6:7)">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Harmonics scale (4:5:6:7)">
   <title>Harmonics scale (4:5:6:7)</title>
   <circle r="18" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <polygon points="0,-18 16.193,7.861 -9.159,15.496 -16.844,-6.347" fill="none" stroke="#1a1a1a" stroke-width="1" opacity="0.6"/>
@@ -1364,7 +1369,7 @@
       <h2>Across roots — major (12 roots, letter toggles on)</h2>
       <ul class="grid">
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C major">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C major">
   <title>C major</title>
   <circle r="14" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
@@ -1380,7 +1385,7 @@
         <div class="name">C major</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="D♭ major">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="D♭ major">
   <title>D♭ major</title>
   <circle r="14" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
@@ -1396,7 +1401,7 @@
         <div class="name">D♭ major</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="D major">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="D major">
   <title>D major</title>
   <circle r="14" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
@@ -1412,7 +1417,7 @@
         <div class="name">D major</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="E♭ major">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="E♭ major">
   <title>E♭ major</title>
   <circle r="14" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
@@ -1428,7 +1433,7 @@
         <div class="name">E♭ major</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="E major">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="E major">
   <title>E major</title>
   <circle r="14" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
@@ -1444,7 +1449,7 @@
         <div class="name">E major</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="F major">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="F major">
   <title>F major</title>
   <circle r="14" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
@@ -1460,7 +1465,7 @@
         <div class="name">F major</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="G♭ major">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="G♭ major">
   <title>G♭ major</title>
   <circle r="14" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
@@ -1476,7 +1481,7 @@
         <div class="name">G♭ major</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="G major">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="G major">
   <title>G major</title>
   <circle r="14" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
@@ -1492,7 +1497,7 @@
         <div class="name">G major</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A♭ major">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A♭ major">
   <title>A♭ major</title>
   <circle r="14" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
@@ -1508,7 +1513,7 @@
         <div class="name">A♭ major</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A major">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A major">
   <title>A major</title>
   <circle r="14" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
@@ -1524,7 +1529,7 @@
         <div class="name">A major</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="B♭ major">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="B♭ major">
   <title>B♭ major</title>
   <circle r="14" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
@@ -1540,7 +1545,7 @@
         <div class="name">B♭ major</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="B major">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="B major">
   <title>B major</title>
   <circle r="14" fill="#1a1a1a"/>
   <g class="root-letter" aria-hidden="true">
@@ -1562,7 +1567,7 @@
       <h2>Across roots — minor (12 roots, letter splits white/dark)</h2>
       <ul class="grid">
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C minor">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C minor">
   <title>C minor</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <path d="M0,-14 A14,14 0 0,0 0,14 Z" fill="#1a1a1a"/>
@@ -1579,7 +1584,7 @@
         <div class="name">C minor</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="D♭ minor">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="D♭ minor">
   <title>D♭ minor</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <path d="M0,-14 A14,14 0 0,0 0,14 Z" fill="#1a1a1a"/>
@@ -1596,7 +1601,7 @@
         <div class="name">D♭ minor</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="D minor">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="D minor">
   <title>D minor</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <path d="M0,-14 A14,14 0 0,0 0,14 Z" fill="#1a1a1a"/>
@@ -1613,7 +1618,7 @@
         <div class="name">D minor</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="E♭ minor">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="E♭ minor">
   <title>E♭ minor</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <path d="M0,-14 A14,14 0 0,0 0,14 Z" fill="#1a1a1a"/>
@@ -1630,7 +1635,7 @@
         <div class="name">E♭ minor</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="E minor">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="E minor">
   <title>E minor</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <path d="M0,-14 A14,14 0 0,0 0,14 Z" fill="#1a1a1a"/>
@@ -1647,7 +1652,7 @@
         <div class="name">E minor</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="F minor">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="F minor">
   <title>F minor</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <path d="M0,-14 A14,14 0 0,0 0,14 Z" fill="#1a1a1a"/>
@@ -1664,7 +1669,7 @@
         <div class="name">F minor</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="G♭ minor">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="G♭ minor">
   <title>G♭ minor</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <path d="M0,-14 A14,14 0 0,0 0,14 Z" fill="#1a1a1a"/>
@@ -1681,7 +1686,7 @@
         <div class="name">G♭ minor</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="G minor">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="G minor">
   <title>G minor</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <path d="M0,-14 A14,14 0 0,0 0,14 Z" fill="#1a1a1a"/>
@@ -1698,7 +1703,7 @@
         <div class="name">G minor</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A♭ minor">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A♭ minor">
   <title>A♭ minor</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <path d="M0,-14 A14,14 0 0,0 0,14 Z" fill="#1a1a1a"/>
@@ -1715,7 +1720,7 @@
         <div class="name">A♭ minor</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A minor">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A minor">
   <title>A minor</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <path d="M0,-14 A14,14 0 0,0 0,14 Z" fill="#1a1a1a"/>
@@ -1732,7 +1737,7 @@
         <div class="name">A minor</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="B♭ minor">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="B♭ minor">
   <title>B♭ minor</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <path d="M0,-14 A14,14 0 0,0 0,14 Z" fill="#1a1a1a"/>
@@ -1749,7 +1754,7 @@
         <div class="name">B♭ minor</div>
       </li>
       <li class="card">
-        <div class="glyph"><svg width="160" height="160" viewBox="-29.5 -29.5 59 59" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="B minor">
+        <div class="glyph"><svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="B minor">
   <title>B minor</title>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
   <path d="M0,-14 A14,14 0 0,0 0,14 Z" fill="#1a1a1a"/>

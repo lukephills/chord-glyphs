@@ -1,5 +1,7 @@
 # CLUSTER chord glyphs
 
+**Live page: <https://lukephills.github.io/chord-glyphs/>** &middot; **Source: <https://github.com/lukephills/chord-glyphs>**
+
 An abstract, circular visual language for chord quality and scale structure. Each glyph encodes a chord's shape and feel without letters or traditional chord symbols — a performer recognizes the quality at a glance.
 
 | C major | Cm7 | C7 (7th in bass) | Whole-tone scale |
@@ -12,7 +14,7 @@ An abstract, circular visual language for chord quality and scale structure. Eac
    crescent (diminished) → half (minor) → full (major) → gibbous (augmented). A hollow outline means no third (suspended or no3). A *smaller* circle means no fifth (no5).
 2. **Dots on the rim** — the tone replacing the third (sus2 / sus4).
 3. **Dots outside the circle** — extensions and alterations, one per clock hour (7th at 7 o'clock, 9th at 9 o'clock…). Plain dot = natural, ringed "Saturn" dot = flat, ticked dot = sharp, double-ring = double flat.
-4. **Hollow ring behind a marker** — the inversion halo: whatever it sits behind is the note in the bass. No halo = root position.
+4. **A black radial spoke poking out of the main circle** — the inversion pointer: it points at the clock hour of the note in the bass. No spoke = root position.
 
 ## Scale constellations
 
