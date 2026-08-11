@@ -13,7 +13,7 @@ An abstract, circular visual language for chord quality and scale structure. Eac
 1. **Fill of the main circle** — the triad quality, read like moon phases:
    dark disc (diminished) → crescent (minor) → half (no third / suspended) → gibbous (major) → hollow ring (augmented). The lit area grows with how decided the tonality is; augmented breaks out of the lit-area axis entirely. A *smaller* circle means no fifth (no5).
 2. **Dots on the rim** — the tone replacing the third (sus2 / sus4). A half-moon with no rim dot is a true no-third chord.
-3. **Dots outside the circle** — extensions and alterations, one per clock hour (7th at 7 o'clock, 9th at 9 o'clock…). Plain dot = natural, empty dot = flat, ticked dot = sharp, empty dot with a ring = double flat.
+3. **Dots outside the circle** — extensions and alterations, one per clock hour (7th at 7 o'clock, 9th at 9 o'clock…). Filled dot = flat (minor), empty dot = natural (major), empty dot + tick = sharp, filled dot + ring = double flat.
 4. **A black radial spoke poking out of the main circle** — the inversion pointer: it points at the clock hour of the note in the bass. No spoke = root position.
 
 ## Scale constellations

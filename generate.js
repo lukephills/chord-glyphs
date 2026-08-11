@@ -41,7 +41,6 @@ const FG = "#1a1a1a";
 // ---- core constants (section 1) ----
 const R_BASE       = 14;   // base quality circle radius (3rd + 5th both present)
 const R_BASE_NO5   = 9;    // base quality circle radius when fifth is absent
-const R_RIM        = 14;
 const R_ORBIT      = 20;
 const R_NATURAL    = 3;
 const R_FLAT_RING  = 4.5;
@@ -110,9 +109,7 @@ function glyphExtent(spec) {
   }
   if (spec.susp) {
     const s = spec.susp;
-    const r = (!s.alt || s.alt === "natural") ? R_RIM + R_NATURAL
-                                              : markerOuterRadius(s.alt);
-    maxR = Math.max(maxR, r);
+    maxR = Math.max(maxR, markerOuterRadius(s.alt || "natural"));
   }
   if (spec.inv != null) {
     // spoke extends past the base circle by SPOKE_LEN, and further past any
@@ -120,10 +117,8 @@ function glyphExtent(spec) {
     // stroke half-width is folded in conservatively via the constant.
     const r0 = effectiveBaseRadius(spec);
     let rEnd = r0 + SPOKE_LEN;
-    if (spec.susp && spec.susp.h === spec.inv) {
-      const alt = spec.susp.alt;
-      rEnd = Math.max(rEnd, ((!alt || alt === N) ? R_RIM + R_NATURAL
-                                                : markerOuterRadius(alt)) + 1.5);
+if (spec.susp && spec.susp.h === spec.inv) {
+      rEnd = Math.max(rEnd, markerOuterRadius(spec.susp.alt || "natural") + 1.5);
     }
     if (spec.ext) {
       for (const e of spec.ext) {
@@ -260,36 +255,36 @@ function baseShape(spec) {
   }
 }
 
-// ---- rim marker for suspended tones (section 4) ----
+// ---- suspended-tone marker (section 4) ----
+// A sus chord places its replacing tone at the orbit radius (same ring the
+// extension markers sit on) — the marker reads as a station on the orbit,
+// not as something fused to the base circle's edge. It shares the orbit
+// marker vocabulary (section 5) at that radius.
 function rimMarker(susp) {
-  const p = pos(susp.h, R_RIM);
-  const parts = [];
-  if (!susp.alt || susp.alt === "natural") {
-    parts.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_NATURAL}" fill="${FG}"/>`);
-  } else {
-    // sharp / flat treatment shared with orbit vocabulary (section 5), but
-    // placed at the rim radius.
-    parts.push(...markerPartsAt(susp.h, susp.alt, R_RIM));
-  }
-  return parts.join("\n  ");
+  return markerPartsAt(susp.h, susp.alt || "natural", R_ORBIT).join("\n  ");
 }
 
 // ---- orbit markers (section 5), generalized to any radius ----
 function markerPartsAt(h, alt, R) {
   const p = pos(h, R);
   const out = [];
+  // Building-block logic: sharp = natural + tick; dblflat = flat + ring.
+  //   natural (major) -> empty stroked dot
+  //   flat    (minor) -> filled dot
+  //   sharp          -> empty dot + outward tick
+  //   dblflat        -> filled dot + outer ring
   if (alt === "natural") {
-    out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_NATURAL}" fill="${FG}"/>`);
-  } else if (alt === "flat") {
     out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_NATURAL}" fill="none" stroke="${FG}" stroke-width="1.2"/>`);
-  } else if (alt === "sharp") {
+  } else if (alt === "flat") {
     out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_NATURAL}" fill="${FG}"/>`);
+  } else if (alt === "sharp") {
+    out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_NATURAL}" fill="none" stroke="${FG}" stroke-width="1.2"/>`);
     const u = unit(h);
     const t1 = { x: u.x * (R + 3), y: u.y * (R + 3) };
     const t2 = { x: u.x * (R + 7), y: u.y * (R + 7) };
     out.push(`<line x1="${f(t1.x)}" y1="${f(t1.y)}" x2="${f(t2.x)}" y2="${f(t2.y)}" stroke="${FG}" stroke-width="2" stroke-linecap="round"/>`);
   } else if (alt === "dblflat") {
-    out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_NATURAL}" fill="none" stroke="${FG}" stroke-width="1.2"/>`);
+    out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_NATURAL}" fill="${FG}"/>`);
     out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_FLAT_RING}" fill="none" stroke="${FG}" stroke-width="1"/>`);
   } else {
     throw new Error("unknown alt: " + alt);
@@ -318,9 +313,7 @@ function inversionSpoke(spec) {
   // outer radius instead.
   let rEnd = r0 + SPOKE_LEN;
   if (spec.susp && spec.susp.h === inv) {
-    const alt = spec.susp.alt;
-    rEnd = Math.max(rEnd, ((!alt || alt === N) ? R_RIM + R_NATURAL
-                                              : markerOuterRadius(alt)) + 1.5);
+    rEnd = Math.max(rEnd, markerOuterRadius(spec.susp.alt || "natural") + 1.5);
   }
   if (spec.ext) {
     for (const e of spec.ext) {
@@ -455,15 +448,16 @@ function buildChordSVG(spec, opts) {
   if (spec.inv != null) layers.push(inversionSpoke(spec));
 
   // 2. orbit guide ring (shown when there are orbit markers; behind the base
-  //    so the base can sit cleanly on top of it)
-  if (spec.ext && spec.ext.length) {
-    layers.push(`<circle r="${R_ORBIT}" fill="none" stroke="${FG}" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>`);
+  //    so the base can sit cleanly on top of it). Carries a class so the
+  //    listing page can toggle its visibility via a body class.
+  if ((spec.ext && spec.ext.length) || spec.susp) {
+    layers.push(`<circle class="orbit-ring" r="${R_ORBIT}" fill="none" stroke="${FG}" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>`);
   }
 
   // 3. base quality shape
   layers.push(baseShape(spec));
 
-  // 4. rim marker (if suspended)
+  // 4. rim marker (if suspended) — placed on the orbit ring
   if (spec.susp) layers.push(rimMarker(spec.susp));
 
   // 5. extension / alteration / deviation markers (section 5 + 10.5)
@@ -879,8 +873,14 @@ const html = `<!DOCTYPE html>
   .root-letter { display: none; }
   body.with-notes .root-letter { display: inline; }
 
+  /* Dashed orbit guide ring inside each inlined glyph: hidden by default,
+     shown only when <body> has the \"with-orbit\" class. The toggle button
+     flips that class. */
+  .orbit-ring { display: none; }
+  body.with-orbit .orbit-ring { display: inline; }
+
   /* Toggle button */
-  .controls { margin: 0 0 1.2rem; }
+  .controls { margin: 0 0 1.2rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
   .btn {
     appearance: none; border: 1px solid var(--line); background: #fff;
     color: var(--fg); font: inherit; font-size: 0.88rem; font-weight: 500;
@@ -895,9 +895,12 @@ const html = `<!DOCTYPE html>
     content: \"\"; position: absolute; top: 2px; left: 2px;
     width: 15px; height: 15px; border-radius: 50%; background: #fff;
     box-shadow: 0 1px 2px rgba(0,0,0,0.18); transition: transform 0.12s ease; }
-  body.with-notes .btn { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-  body.with-notes .btn .sw { background: rgba(255,255,255,0.35); }
-  body.with-notes .btn .sw::before { transform: translateX(15px); }
+  body.with-notes #note-toggle { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  body.with-notes #note-toggle .sw { background: rgba(255,255,255,0.35); }
+  body.with-notes #note-toggle .sw::before { transform: translateX(15px); }
+  body.with-orbit #orbit-toggle { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  body.with-orbit #orbit-toggle .sw { background: rgba(255,255,255,0.35); }
+  body.with-orbit #orbit-toggle .sw::before { transform: translateX(15px); }
   footer { max-width: 1100px; margin: 3rem auto 0; color: var(--muted);
            font-size: 0.8rem; border-top: 1px solid var(--line); padding-top: 1rem; }
   @media (max-width: 480px) {
@@ -920,12 +923,15 @@ const html = `<!DOCTYPE html>
     <button type="button" id="note-toggle" class="btn" aria-pressed="false" title="Show the root note letter inside each glyph">
       <span class="sw" aria-hidden="true"></span>Show note letter
     </button>
+    <button type="button" id="orbit-toggle" class="btn" aria-pressed="false" title="Show the dashed outer circle around each glyph">
+      <span class="sw" aria-hidden="true"></span>Show orbit ring
+    </button>
   </div>
   <div class="legend">
-    <span><b>filled dot</b> = natural</span>
-    <span><b>empty dot</b> = flat</span>
-    <span><b>dot&nbsp;+&nbsp;tick</b> = sharp</span>
-    <span><b>empty dot&nbsp;+&nbsp;ring</b> = double flat</span>
+    <span><b>filled dot</b> = flat (minor)</span>
+    <span><b>empty dot</b> = natural (major)</span>
+    <span><b>empty dot&nbsp;+&nbsp;tick</b> = sharp</span>
+    <span><b>filled dot&nbsp;+&nbsp;ring</b> = double flat</span>
     <span><b>radial spoke poking out of the main circle</b> = inversion (tone in bass)</span>
     <span><b>smaller circle</b> = no fifth (no5)</span>
     <span><b>half moon</b> = no third (no3) or suspended</span>
@@ -950,6 +956,22 @@ ${cards}
     setState(saved === \"1\");
     btn.addEventListener(\"click\", function () {
       setState(!document.body.classList.contains(\"with-notes\"));
+    });
+  })();
+  (function () {
+    var btn = document.getElementById(\"orbit-toggle\");
+    if (!btn) return;
+    // The orbit ring is hidden by default; the toggle shows it.
+    function setState(on) {
+      document.body.classList.toggle(\"with-orbit\", on);
+      btn.setAttribute(\"aria-pressed\", on ? \"true\" : \"false\");
+      try { localStorage.setItem(\"cluster-orbit\", on ? \"1\" : \"0\"); } catch (e) {}
+    }
+    var saved = null;
+    try { saved = localStorage.getItem(\"cluster-orbit\"); } catch (e) {}
+    setState(saved === \"1\");
+    btn.addEventListener(\"click\", function () {
+      setState(!document.body.classList.contains(\"with-orbit\"));
     });
   })();
 </script>

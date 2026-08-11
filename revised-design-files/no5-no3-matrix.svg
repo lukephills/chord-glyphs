@@ -1,0 +1,18 @@
+<svg width="100%" viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(100,110)">
+    <circle r="14" fill="#1a1a1a"/>
+  </g>
+  <g transform="translate(280,110)">
+    <circle r="9" fill="#1a1a1a"/>
+  </g>
+  <g transform="translate(460,110)">
+    <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+  </g>
+  <g transform="translate(620,110)">
+    <circle r="9" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+  </g>
+  <text x="100" y="165" font-family="sans-serif" font-size="13" text-anchor="middle" fill="#1a1a1a">3rd + 5th</text>
+  <text x="280" y="165" font-family="sans-serif" font-size="13" text-anchor="middle" fill="#1a1a1a">3rd, no 5th</text>
+  <text x="460" y="165" font-family="sans-serif" font-size="13" text-anchor="middle" fill="#1a1a1a">5th, no 3rd</text>
+  <text x="620" y="165" font-family="sans-serif" font-size="13" text-anchor="middle" fill="#1a1a1a">neither</text>
+</svg>

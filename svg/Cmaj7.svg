@@ -1,7 +1,7 @@
 <svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cmaj7">
   <title>Cmaj7</title>
-  <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
+  <circle class="orbit-ring" r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
   <path d="M0,-14 A14,14 0 0,0 0,14 A8.4,14 0 0,1 0,-14Z" fill="#1a1a1a"/>
   <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
-  <circle cx="-10" cy="17.321" r="3" fill="#1a1a1a"/>
+  <circle cx="-10" cy="17.321" r="3" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
 </svg>

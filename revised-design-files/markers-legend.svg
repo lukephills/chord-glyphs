@@ -1,0 +1,18 @@
+<svg width="100%" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(130,90)"><circle r="4" fill="none" stroke="#1a1a1a" stroke-width="1.2"/></g>
+  <g transform="translate(290,90)">
+    <circle r="4" fill="#1a1a1a"/>
+  </g>
+  <g transform="translate(450,90)">
+    <circle r="4" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+    <line x1="7" y1="0" x2="13" y2="0" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(610,90)">
+    <circle r="4" fill="#1a1a1a"/>
+    <circle r="6" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+  </g>
+  <text x="130" y="145" font-family="sans-serif" font-size="14" text-anchor="middle" fill="#1a1a1a">natural</text>
+  <text x="290" y="145" font-family="sans-serif" font-size="14" text-anchor="middle" fill="#1a1a1a">flat</text>
+  <text x="450" y="145" font-family="sans-serif" font-size="14" text-anchor="middle" fill="#1a1a1a">sharp</text>
+  <text x="610" y="145" font-family="sans-serif" font-size="14" text-anchor="middle" fill="#1a1a1a">double flat</text>
+</svg>
