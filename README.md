@@ -11,9 +11,9 @@ An abstract, circular visual language for chord quality and scale structure. Eac
 ## Reading order
 
 1. **Fill of the main circle** — the triad quality, read like moon phases:
-   crescent (diminished) → half (minor) → full (major) → gibbous (augmented). A hollow outline means no third (suspended or no3). A *smaller* circle means no fifth (no5).
-2. **Dots on the rim** — the tone replacing the third (sus2 / sus4).
-3. **Dots outside the circle** — extensions and alterations, one per clock hour (7th at 7 o'clock, 9th at 9 o'clock…). Plain dot = natural, ringed "Saturn" dot = flat, ticked dot = sharp, double-ring = double flat.
+   dark disc (diminished) → crescent (minor) → half (no third / suspended) → gibbous (major) → hollow ring (augmented). The lit area grows with how decided the tonality is; augmented breaks out of the lit-area axis entirely. A *smaller* circle means no fifth (no5).
+2. **Dots on the rim** — the tone replacing the third (sus2 / sus4). A half-moon with no rim dot is a true no-third chord.
+3. **Dots outside the circle** — extensions and alterations, one per clock hour (7th at 7 o'clock, 9th at 9 o'clock…). Plain dot = natural, empty dot = flat, ticked dot = sharp, empty dot with a ring = double flat.
 4. **A black radial spoke poking out of the main circle** — the inversion pointer: it points at the clock hour of the note in the bass. No spoke = root position.
 
 ## Scale constellations
@@ -30,8 +30,8 @@ Round each note to the nearest 12-TET semitone, classify the base shape from the
 | --- | --- | --- |
 | yes | yes | Normal r=14 circle, filled per quality |
 | yes | no | Smaller r=9 filled circle ("the moon shrinks — no planet") |
-| no | yes | Hollow r=14 (visually identical to sus, intentionally) |
-| no | no | Hollow r=9 |
+| no | yes | Half-moon r=14 (visually identical to sus, intentionally) |
+| no | no | Half-moon r=9 |
 
 ## Repository layout
 

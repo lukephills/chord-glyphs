@@ -45,8 +45,6 @@ const R_RIM        = 14;
 const R_ORBIT      = 20;
 const R_NATURAL    = 3;
 const R_FLAT_RING  = 4.5;
-const R_DBLFLAT_RING1 = 4;
-const R_DBLFLAT_RING2 = 6.5;
 const TICK_LEN     = 4;
 const SPOKE_LEN    = 6;    // inversion spoke length (section 6)
 const SPOKE_W      = 1.2;  // inversion spoke stroke width
@@ -81,8 +79,8 @@ function unit(h) {
 function markerOuterRadius(alt) {
   switch (alt) {
     case "natural": return R_ORBIT + R_NATURAL;            // 23
-    case "flat":    return R_ORBIT + R_FLAT_RING;          // 24.5
-    case "dblflat": return R_ORBIT + R_DBLFLAT_RING2;      // 26.5
+    case "flat":    return R_ORBIT + R_NATURAL;            // 23
+    case "dblflat": return R_ORBIT + R_FLAT_RING;          // 24.5
     case "sharp":   return R_ORBIT + R_NATURAL + TICK_LEN; // 27
     default:        return R_ORBIT;
   }
@@ -94,15 +92,11 @@ function effectiveBaseRadius(spec) {
   return spec.no5 ? R_BASE_NO5 : R_BASE;
 }
 
-// Furthest reach of the base quality shape from the glyph center. Diminished
-// and augmented crescents/gibbous subtract an offset circle whose far edge
-// pokes out past R_BASE on the +x side (those subtrahends are hardcoded at
-// r=14 because diminished/augmented triads require a 5th role, so no no5).
+// Effective base radius: r=14 normally, r=9 when there's no fifth to anchor
+// the full-size moon-phase shape (section 10.4). Diminished and augmented use
+// the moonFill path (outer arc + terminator ellipse) which stays within R_BASE,
+// so no special reach is needed for them.
 function baseExtent(spec) {
-  if (!spec.no3 && !spec.no5 &&
-      (spec.quality === "diminished" || spec.quality === "augmented")) {
-    return spec.quality === "diminished" ? 19 : 17;
-  }
   return effectiveBaseRadius(spec);
 }
 
@@ -151,24 +145,48 @@ function constellationExtent() {
 function outerCircleD(R) {
   return `M${f(R)},0 A${f(R)},${f(R)} 0 1,0 ${f(-R)},0 A${f(R)},${f(R)} 0 1,0 ${f(R)},0`;
 }
-const OUTER_CIRCLE_D_14 = outerCircleD(R_BASE);
+// ---- moon-phase fill path (section 3) ----
+// Returns the path data for the LIT region of a moon-phase shape centered at
+// (cx, cy) with outer radius r, illuminated fraction `fill` in [0, 1]. Lit
+// side is the LEFT (waning convention), consistent across all chord-quality
+// phases so the cycle reads nothing -> crescent -> half -> gibbous -> full
+// disc as `fill` goes 0 -> 1.
+//   fill <= 0   : nothing (no lit area; used by augmented's hollow ring)
+//   fill >= 1   : full disc
+//   fill < 0.5  : crescent on the left (thin sliver when fill is small)
+//   fill > 0.5  : gibbous, lit-left with a small dark sliver on the far right
+// The dark side is NOT part of this path; baseShape() draws a separate stroked
+// outline circle so the full moon limb is always visible (the "moon" read).
+function moonFill(cx, cy, r, fill) {
+  if (fill <= 0) return "";
+  if (fill >= 1)
+    return `M${f(cx)},${f(cy - r)} A${f(r)},${f(r)} 0 1,0 ${f(cx)},${f(cy + r)} A${f(r)},${f(r)} 0 1,0 ${f(cx)},${f(cy - r)}Z`;
+  const T = `${f(cx)},${f(cy - r)}`, B = `${f(cx)},${f(cy + r)}`;
+  const rx = r * Math.abs(1 - 2 * fill);
+  const sw = fill > 0.5 ? 1 : 0;
+  return `M${T} A${f(r)},${f(r)} 0 0,0 ${B} A${f(rx)},${f(r)} 0 0,${sw} ${T}Z`;
+}
+
+const FILL_CRESCENT = 0.2;  // thin lit sliver (minor)
+const FILL_GIBBOUS  = 0.8;  // mostly lit, small dark sliver (major)
 
 // path-data only describing the FILLED region of the base quality, used to
 // build clip paths for the root-letter overlay.
-//   major      : full disc
-//   minor      : left half
-//   diminished : crescent (outer circle minus offset circle on the right)
-//   augmented  : gibbous (outer circle minus a small bite on the right)
-//   suspended  / no3 : nothing (hollow outline -> letter renders in FG only)
+//   diminished : full disc (the moon has gone entirely dark)
+//   minor      : crescent (small lit area on the left)
+//   no3 / sus  : left half (ambiguous tonality; both halves equal)
+//   major      : gibbous (large lit area, small dark sliver on the right)
+//   augmented  : nothing (hollow ring; the "new moon" sits open)
 function baseFillPathData(spec) {
   const R = effectiveBaseRadius(spec);
-  // no-third or suspended means no fill at all (the "new moon" outline)
-  if (spec.no3 || spec.quality === "suspended") return "";
+  // no-third or suspended -> half moon (lit/dark ambiguous, equal halves)
+  if (spec.no3 || spec.quality === "suspended")
+    return `M0,${f(-R)} A${f(R)},${f(R)} 0 0,0 0,${f(R)} Z`;
   switch (spec.quality) {
-    case "major":      return outerCircleD(R);
-    case "minor":      return `M0,${f(-R)} A${f(R)},${f(R)} 0 0,0 0,${f(R)} Z`;
-    case "diminished": return `${OUTER_CIRCLE_D_14} M19,0 A13,13 0 1,0 -7,0 A13,13 0 1,0 19,0`;
-    case "augmented":  return `${OUTER_CIRCLE_D_14} M17,0 A6,6 0 1,0 5,0 A6,6 0 1,0 17,0`;
+    case "diminished": return outerCircleD(R);
+    case "minor":      return moonFill(0, 0, R, FILL_CRESCENT);
+    case "major":      return moonFill(0, 0, R, FILL_GIBBOUS);
+    case "augmented":  return "";
     default: throw new Error("unknown quality: " + spec.quality);
   }
 }
@@ -192,7 +210,7 @@ function rootLetterLayer(spec, clipID) {
   const fillClipID   = `cf-${clipID}`;
   const nofillClipID = `cnf-${clipID}`;
 
-  // an empty <path> for the hollow/suspended fill (renders nothing for BG layer)
+  // an empty <path> for the hollow-augmented fill (renders nothing for BG layer)
   const fillClipEl = fillD ? `<path d="${fillD}"/>` : `<path d="M0,0 Z"/>`;
 
   const hasAcc = !!acc;
@@ -221,22 +239,22 @@ function rootLetterLayer(spec, clipID) {
 // ---- base quality shapes (section 3 + 10.4 no5/no3 matrix) ----
 function baseShape(spec) {
   const R = effectiveBaseRadius(spec);
-  // no3 or suspended -> hollow outline (the "new moon")
+  // no3 or suspended -> half moon (tonality-ambiguous: "both halves equal")
   if (spec.no3 || spec.quality === "suspended") {
-    return `<circle r="${f(R)}" fill="none" stroke="${FG}" stroke-width="1.5"/>`;
+    return `<circle r="${f(R)}" fill="none" stroke="${FG}" stroke-width="1.5"/>\n  ` +
+           `<path d="M0,${f(-R)} A${f(R)},${f(R)} 0 0,0 0,${f(R)} Z" fill="${FG}"/>`;
   }
   switch (spec.quality) {
-    case "major":
+    case "diminished":
       return `<circle r="${f(R)}" fill="${FG}"/>`;
     case "minor":
-      return `<circle r="${f(R)}" fill="none" stroke="${FG}" stroke-width="1.5"/>\n  ` +
-             `<path d="M0,${f(-R)} A${f(R)},${f(R)} 0 0,0 0,${f(R)} Z" fill="${FG}"/>`;
-    case "diminished":
-      return `<path d="M14,0 A14,14 0 1,0 -14,0 A14,14 0 1,0 14,0 ` +
-             `M19,0 A13,13 0 1,0 -7,0 A13,13 0 1,0 19,0" fill-rule="evenodd" fill="${FG}"/>`;
+      return `<path d="${moonFill(0, 0, R, FILL_CRESCENT)}" fill="${FG}"/>\n  ` +
+             `<circle r="${f(R)}" fill="none" stroke="${FG}" stroke-width="1.5"/>`;
+    case "major":
+      return `<path d="${moonFill(0, 0, R, FILL_GIBBOUS)}" fill="${FG}"/>\n  ` +
+             `<circle r="${f(R)}" fill="none" stroke="${FG}" stroke-width="1.5"/>`;
     case "augmented":
-      return `<path d="M14,0 A14,14 0 1,0 -14,0 A14,14 0 1,0 14,0 ` +
-             `M17,0 A6,6 0 1,0 5,0 A6,6 0 1,0 17,0" fill-rule="evenodd" fill="${FG}"/>`;
+      return `<circle r="${f(R)}" fill="none" stroke="${FG}" stroke-width="1.5"/>`;
     default:
       throw new Error("unknown quality: " + spec.quality);
   }
@@ -263,8 +281,7 @@ function markerPartsAt(h, alt, R) {
   if (alt === "natural") {
     out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_NATURAL}" fill="${FG}"/>`);
   } else if (alt === "flat") {
-    out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="1.5" fill="${FG}"/>`);
-    out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_FLAT_RING}" fill="none" stroke="${FG}" stroke-width="1.2"/>`);
+    out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_NATURAL}" fill="none" stroke="${FG}" stroke-width="1.2"/>`);
   } else if (alt === "sharp") {
     out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_NATURAL}" fill="${FG}"/>`);
     const u = unit(h);
@@ -272,9 +289,8 @@ function markerPartsAt(h, alt, R) {
     const t2 = { x: u.x * (R + 7), y: u.y * (R + 7) };
     out.push(`<line x1="${f(t1.x)}" y1="${f(t1.y)}" x2="${f(t2.x)}" y2="${f(t2.y)}" stroke="${FG}" stroke-width="2" stroke-linecap="round"/>`);
   } else if (alt === "dblflat") {
-    out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="1.5" fill="${FG}"/>`);
-    out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_DBLFLAT_RING1}" fill="none" stroke="${FG}" stroke-width="1"/>`);
-    out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_DBLFLAT_RING2}" fill="none" stroke="${FG}" stroke-width="1"/>`);
+    out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_NATURAL}" fill="none" stroke="${FG}" stroke-width="1.2"/>`);
+    out.push(`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${R_FLAT_RING}" fill="none" stroke="${FG}" stroke-width="1"/>`);
   } else {
     throw new Error("unknown alt: " + alt);
   }
@@ -349,8 +365,8 @@ function classifyTriad(thirdSemi, fifthSemi, hasFifth) {
   // Section 10.4: if the middle note doesn't round to 2/3/4/5, it isn't a 3rd
   // at all -> no3.
   if (![2, 3, 4, 5].includes(thirdSemi)) {
-    // no3: hollow outline (visually the "new moon"). If there's a fifth, it's
-    // at full radius; otherwise r=9.
+    // no3: half moon (tonality-ambiguous). If there's a fifth, it's at full
+    // radius; otherwise r=9.
     return { quality: "suspended", no3: true };
   }
   // Round 3rd to *something* but the fifth combo doesn't match a standard
@@ -615,7 +631,7 @@ const chords = [
   // {0, 386.314, 498.045, 701.955, 813.686}: middle note rounds to 400
   // (major 3rd) with -13.7c dev -> flat marker at h=3; top note rounds to
   // 800 (aug 5th) with +13.7c dev -> sharp marker at h=5; base = augmented
-  // gibbous. Renders identically to the reference SVG
+  // hollow ring. Renders identically to the reference SVG
   // revised-design-files/microtonal-chord-deviation-markers.svg.
   { name: "Hexany 1,2,5 (augmented, microtonal)",
     file: "microtonal-hexany-125.svg",
@@ -761,7 +777,7 @@ const groups = [
   { title: "Thirteenth chords",                        members: chords.slice(36, 39) },
   { title: "Suspended with extensions",                members: chords.slice(39, 43) },
   { title: "No-fifth and no-third chords",
-    note:  "When the third or fifth role is absent, the base circle shrinks (no5) or goes hollow (no3). The &ldquo;no3&rdquo; shape is intentionally identical to a sus chord \u2014 a chord with a fifth and no third genuinely doesn&rsquo;t tell you major or minor.",
+    note:  "When the third or fifth role is absent, the base circle shrinks (no5) or becomes a half moon (no3). The &ldquo;no3&rdquo; shape is intentionally identical to a sus chord \u2014 a chord with a fifth and no third genuinely doesn&rsquo;t tell you major or minor.",
     members: chords.slice(no3no5Start, invStart) },
   { title: "Inversions \u2014 the spoke marker",
     note:  "A short black radial line poking out of the main circle at the bass tone&rsquo;s clock hour. No spoke anywhere means root position.",
@@ -896,9 +912,10 @@ const html = `<!DOCTYPE html>
   <h1>CLUSTER chord glyphs</h1>
   <p>An abstract visual language for chord quality. Each glyph encodes a chord&rsquo;s
      shape and feel without letters or music-theory math. The main circle&rsquo;s fill
-     is the triad quality (crescent&nbsp;&rarr;&nbsp;half&nbsp;&rarr;&nbsp;full&nbsp;&rarr;&nbsp;gibbous,
-     like moon phases); dots around it mark extensions at their clock hours (7th at
-     7&nbsp;o&rsquo;clock, 9th at 9&nbsp;o&rsquo;clock&hellip;).</p>
+     is the triad quality &mdash; a dark disc for diminished, growing through a
+     crescent (minor) and half (no third / suspended) to a gibbous for major, with
+     a hollow ring for augmented; dots around it mark extensions at their clock
+     hours (7th at 7&nbsp;o&rsquo;clock, 9th at 9&nbsp;o&rsquo;clock&hellip;).</p>
   <div class="controls">
     <button type="button" id="note-toggle" class="btn" aria-pressed="false" title="Show the root note letter inside each glyph">
       <span class="sw" aria-hidden="true"></span>Show note letter
@@ -906,12 +923,14 @@ const html = `<!DOCTYPE html>
   </div>
   <div class="legend">
     <span><b>filled dot</b> = natural</span>
-    <span><b>ringed dot</b> = flat</span>
+    <span><b>empty dot</b> = flat</span>
     <span><b>dot&nbsp;+&nbsp;tick</b> = sharp</span>
-    <span><b>double ring</b> = double flat</span>
+    <span><b>empty dot&nbsp;+&nbsp;ring</b> = double flat</span>
     <span><b>radial spoke poking out of the main circle</b> = inversion (tone in bass)</span>
     <span><b>smaller circle</b> = no fifth (no5)</span>
-    <span><b>hollow circle</b> = no third (no3) or suspended</span>
+    <span><b>half moon</b> = no third (no3) or suspended</span>
+    <span><b>hollow circle</b> = augmented</span>
+    <span><b>dark disc</b> = diminished</span>
   </div>
 </header>
 <main>

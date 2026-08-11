@@ -1,8 +1,7 @@
 <svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="24-EDO mid-tie (double-flat 5th)">
   <title>24-EDO mid-tie (double-flat 5th)</title>
   <circle r="20" fill="none" stroke="#1a1a1a" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.35"/>
-  <path d="M14,0 A14,14 0 1,0 -14,0 A14,14 0 1,0 14,0 M17,0 A6,6 0 1,0 5,0 A6,6 0 1,0 17,0" fill-rule="evenodd" fill="#1a1a1a"/>
-  <circle cx="10" cy="17.321" r="1.5" fill="#1a1a1a"/>
-  <circle cx="10" cy="17.321" r="4" fill="none" stroke="#1a1a1a" stroke-width="1"/>
-  <circle cx="10" cy="17.321" r="6.5" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+  <circle r="14" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+  <circle cx="10" cy="17.321" r="3" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+  <circle cx="10" cy="17.321" r="4.5" fill="none" stroke="#1a1a1a" stroke-width="1"/>
 </svg>

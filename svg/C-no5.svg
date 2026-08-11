@@ -1,4 +1,5 @@
 <svg width="160" height="160" viewBox="-29 -29 58 58" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="C (no5) — third only">
   <title>C (no5) — third only</title>
-  <circle r="9" fill="#1a1a1a"/>
+  <path d="M0,-9 A9,9 0 0,0 0,9 A5.4,9 0 0,1 0,-9Z" fill="#1a1a1a"/>
+  <circle r="9" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
 </svg>
